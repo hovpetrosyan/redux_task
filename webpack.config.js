@@ -7,10 +7,10 @@ const ExtractCssChunks = require("extract-css-chunks-webpack-plugin");
 module.exports={
     watch:true,
     mode:'development',
-    entry:'./public/scripts/main.js',
+    entry:'./src/scripts/index.js',
     output:{
         path:path.resolve(__dirname,'./build'),
-        filename:'main.bundle.js'
+        filename:'index.bundle.js'
     },
     module:{
         rules:[{
@@ -24,7 +24,7 @@ module.exports={
             use:["style-loader", 'css-loader']
         }]},
         plugins:[
-            new HtmlWebpackPlugin({template:'./public/index.html'}),
+            new HtmlWebpackPlugin({template:'./src/index.html'}),
             new ExtractCssChunks({
                 path:path.resolve(__dirname,'./build'),
                 filename:'style.css',
