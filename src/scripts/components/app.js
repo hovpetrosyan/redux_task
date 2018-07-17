@@ -1,8 +1,15 @@
 import { connect } from "react-redux";
-import {TodoItem} from './components/todoitem';
-import {Todo} from './components/todo';
-
+import {TodoItem} from './todoitem';
+import {Todo} from './todoadd';
+import {Component} from 'react';
+import {bindActionCreators} from 'redux';
+import {addTodo,getTodo,editTodo,deleteTodo} from './actions';
+import React from "react";
 class App extends Component{
+    componentDidMount(){
+        this.props.getTodo();
+       //this.props.getTodo() 
+    }
     render(){
         return(
             <React.Fragment>
@@ -10,13 +17,14 @@ class App extends Component{
                  <div id='anim'>REACT</div>
                  <table>
                      <tbody>
-                {this.props.todos.map(
-                    (todo) => 
-                    {
-                        //console.log('todoid',todo._id);
-                        //console.log('todotodo',todo.todo);
-                        return <TodoItem key = {todo._id} todo = {todo}  deleteTodo={this.props.deleteTodo} editTodo={this.props.editTodo} />
-                    })
+                         {console.log('in App',this.props.todos)}
+                     {this.props.todos.map(
+                        (todo) => 
+                        {
+                            //console.log('todoid',todo._id);
+                            //console.log('todotodo',todo.todo);
+                            return <TodoItem key = {todo._id} todo = {todo}  deleteTodo={this.props.deleteTodo} editTodo={this.props.editTodo} />
+                        })
                 } 
                     </tbody>
                 </table>
@@ -27,18 +35,18 @@ class App extends Component{
 
 const mapStateToProps = state =>{
     return {
-        todos:state.todosArr
+        todos:state.todos
     }
 }
-const mapDispatchToProps = dispatch =>{
+const mapDispatchToProps = dispatch => { 
     return {
-        addTodo:dispatch(addTodo),
-        getTodo:dispatch(getTodo),
-        editTodo:dispatch(editTodo),
-        deleteTodo:dispatch(deleteTodo)
+        addTodo:bindActionCreators(addTodo,dispatch),
+        getTodo:bindActionCreators(getTodo,dispatch),
+        editTodo:bindActionCreators(editTodo,dispatch),
+        deleteTodo:bindActionCreators(deleteTodo,dispatch)
     }
 }
 
 
-const App = connect(mapStateToProps,mapDispatchToProps)(App);
-export default App;
+const expApp = connect(mapStateToProps,mapDispatchToProps)(App);
+export default expApp;
